@@ -25,10 +25,11 @@ class Mailer {
 		$recipients =[],
 		$subject,
 		$message = [],
-		$charset,
-		$queue;
+		$charset;
 
-	static $EOL="\r\n";
+	static 
+		$EOL="\r\n",
+		$queue;
 
 	/**
 	 * create mailer instance working with a specific charset
