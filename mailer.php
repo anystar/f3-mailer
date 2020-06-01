@@ -25,7 +25,8 @@ class Mailer {
 		$recipients =[],
 		$subject,
 		$message = [],
-		$charset;
+		$charset,
+		$queue;
 
 	static $EOL="\r\n";
 
