@@ -23,10 +23,15 @@ class Mailer {
 
 	protected
 		$recipients =[],
-		$message = [],
 		$charset;
 
-	static $EOL="\r\n";
+	static 
+		$EOL="\r\n",
+		$queue = [];
+	
+	public
+		$message = [],
+		$subject = "";
 
 	/**
 	 * create mailer instance working with a specific charset
@@ -313,6 +318,27 @@ class Mailer {
 			if (!is_dir($path))
 				mkdir($path,0777,true);
 			$f3->write($path.$filename,$out);
+		}
+	}
+
+	/**
+	 * queue this instance of mailer to process later
+	 */
+	public function queue ($subject) {
+		$this->subject = $subject;
+		Mailer::$queue[] = $this;
+	}
+
+	/**
+	 * process all instances of mailer
+	 */
+	static public function processQueue () {
+		if (!isset(Mailer::$queue) || count(Mailer::$queue) == 0) {
+			return;
+		}
+
+		foreach (Mailer::$queue as $mailer) {
+			$mailer->send($mailer->subject);
 		}
 	}
 
